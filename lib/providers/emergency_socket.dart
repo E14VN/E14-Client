@@ -25,21 +25,23 @@ class EmergencySocket extends ChangeNotifier {
       socket.on("disconnect", (_) => connectionState(false));
 
       socket.connect();
-    } catch (e) {
-      print(e);
+    } catch (_) {
       return false;
     }
     return true;
   }
 
   sendReport(LocationObject fireLocation) {
-    socket.emit("/userEndpoints/emit/emergencyReport", {
-      "fireLocation": {
-        "latitude": fireLocation.latitude,
-        "longitude": fireLocation.longitude,
-        "locationApproximate": fireLocation.locationApproximate
-      }
-    });
+    socket.emitWithAck(
+        "/userEndpoints/emit/emergencyReport",
+        {
+          "fireLocation": {
+            "latitude": fireLocation.latitude,
+            "longitude": fireLocation.longitude,
+            "locationApproximate": fireLocation.locationApproximate
+          }
+        },
+        ack: () => sent = true);
     sent = true;
     notifyListeners();
   }

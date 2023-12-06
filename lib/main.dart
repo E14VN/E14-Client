@@ -120,7 +120,8 @@ class E14Client extends StatelessWidget {
                               payload["fireLocation"]["latitude"],
                               payload["fireLocation"]["longitude"],
                               locationApproximate: payload["fireLocation"]
-                                  ["locationApproximate"]));
+                                  ["locationApproximate"]),
+                          addressName: payload["fireLocation"]["addressName"]);
                 })));
   }
 }

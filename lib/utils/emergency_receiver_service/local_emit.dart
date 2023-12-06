@@ -15,7 +15,10 @@ const AndroidNotificationDetails androidPlatformSpecificsForFullScreenIntent =
         priority: Priority.max,
         showWhen: true,
         visibility: NotificationVisibility.public,
-        fullScreenIntent: true);
+        sound: RawResourceAndroidNotificationSound("ring"),
+        fullScreenIntent: true,
+        ledOnMs: 1000,
+        ledOffMs: 500);
 
 const AndroidNotificationDetails androidPlatformSpecificsForPushNotification =
     AndroidNotificationDetails("emergency_notification", "Thông báo khẩn cấp",
@@ -25,7 +28,10 @@ const AndroidNotificationDetails androidPlatformSpecificsForPushNotification =
         priority: Priority.max,
         showWhen: true,
         visibility: NotificationVisibility.public,
-        fullScreenIntent: false);
+        sound: RawResourceAndroidNotificationSound("ring"),
+        fullScreenIntent: false,
+        ledOnMs: 1000,
+        ledOffMs: 500);
 
 @pragma('vm:entry-point')
 Future<void> emergencyPush(RemoteMessage details) async {
@@ -39,7 +45,8 @@ Future<void> emergencyPush(RemoteMessage details) async {
       "fireLocation": {
         "latitude": check.fireLocation.latitude,
         "longitude": check.fireLocation.longitude,
-        "locationApproximate": check.fireLocation.locationApproximate
+        "locationApproximate": check.fireLocation.locationApproximate,
+        "addressName": details.data["addressName"],
       }
     }));
   }
